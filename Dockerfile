@@ -26,7 +26,14 @@ RUN apk update && \
       libsodium-dev \
       linux-headers \
       mbedtls-dev \
-      pcre-dev && \
+      pcre-dev && \ 
+ #
+  apk add libbloom-dev --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing && \
+  apk add libcork-dev --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing && \
+  apk add libcorkipset-dev --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing && \
+  apk add asciidoc --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main && \
+  apk add xmlto --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main && \
+  
  #
  # Build & install
  #
