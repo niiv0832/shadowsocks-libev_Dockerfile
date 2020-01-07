@@ -19,8 +19,9 @@ RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositori
       apk update && \
       apk upgrade && \
       apk add shadowsocks-libev \
-              simple-obfs \
-              ca-certificates \
+              simple-obfs && \
+      ls /usr/bin/ss-* | xargs -n1 setcap cap_net_bind_service+ep && \
+      apk add ca-certificates \
               rng-tools \
                $(scanelf --needed --nobanner /usr/bin/ss-* \
                | awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
