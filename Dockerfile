@@ -5,7 +5,7 @@ ARG VERSION=3.3.3
 
 RUN wget --no-check-certificate https://github.com/shadowsocks/shadowsocks-libev/releases/download/v${VERSION}/shadowsocks-libev-${VERSION}.tar.gz -O /tmp/${VERSION}.tar.gz && \
       mkdir -p /tmp/repo && \
-      tar -C /tmp/repo/ -xf /tmp/${VERSION}.tar.gz -d /tmp ${VERSION}.tar.gz && \
+      tar -C /tmp/repo/ -xf /tmp/${VERSION}.tar.gz && \
       rm /tmp/${VERSION}.zip && \
       mkdir -p /etc/ss/cfg && \
       set -ex && \
