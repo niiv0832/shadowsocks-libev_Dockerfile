@@ -2,11 +2,12 @@ FROM alpine:edge
 MAINTAINER niiv0832 <dockerhubme-ssr@yahoo.com>
 
 
-RUN apk update && \
+RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories && \
+      echo 'http://dl-cdn.alpinelinux.org/alpine/edge/community' >> /etc/apk/repositories && \
+      echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
+      apk update && \
       apk upgrade && \
-      cat /etc/apk/repositories && \
-      apk add --no-cache --virtual unzip \
-          wget \
+      apk add --no-cache --virtual wget \
           c-ares \
           libcork \
           libcorkipset \
@@ -14,6 +15,7 @@ RUN apk update && \
           mbedtls \ 
           pcre && \
       wget -P /etc/apk/keys https://alpine-repo.sourceforge.io/DDoSolitary@gmail.com-00000000.rsa.pub && \
+      http://dl-cdn.alpinelinux.org/alpine/edge/community
       echo 'https://alpine-repo.sourceforge.io/packages' >> /etc/apk/repositories && \
       apk update && \
       apk upgrade && \
