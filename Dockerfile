@@ -27,7 +27,7 @@ RUN mkdir -p /tmp/repo && \
  #
  # Build & install
  #
-  cd /tmp/repo/shadowsocks-libev-3.3.3 && \
+  cd /tmp/repo/shadowsocks-libev-${VERSION} && \
   ./autogen.sh && \
   ./configure --prefix=/usr --disable-documentation && \
   make install && \
