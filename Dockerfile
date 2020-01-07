@@ -27,7 +27,10 @@ RUN      set -ex && \
       libsodium-dev \
       linux-headers \
       mbedtls-dev \
-      pcre-dev 
+      pcre-dev \
+      alpine-sdk \
+      cmake \
+      udns-dev
  #
 RUN apk add  --no-cache --virtual libbloom-dev --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing && \
   apk add  --no-cache --virtual libcork-dev --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing && \
