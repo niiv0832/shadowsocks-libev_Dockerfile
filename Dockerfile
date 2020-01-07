@@ -12,7 +12,8 @@ RUN apk update && \
       unzip -d /tmp/repo /tmp/repo/${VERSION}.zip && \
       mkdir -p /etc/ss/cfg
  #
-RUN      set -ex && \
+RUN      set -e && \
+         set -o xtrace && \
  #
  # Build environment setup
  #
@@ -46,6 +47,9 @@ RUN ldconfig
 RUN cd /tmp/repo/shadowsocks-libev-${VERSION} && \
   ./autogen.sh && \
   ./configure --prefix=/usr --disable-documentation && \
+#  make install && \
+  cmake -DBUILD_STATIC=OFF . && \
+  make && \
   make install && \
   ls /usr/bin/ss-* | xargs -n1 setcap cap_net_bind_service+ep && \
   apk del .build-deps 
