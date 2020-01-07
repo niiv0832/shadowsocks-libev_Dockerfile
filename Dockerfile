@@ -15,13 +15,11 @@ RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositori
           mbedtls \ 
           pcre && \
       wget -P /etc/apk/keys https://alpine-repo.sourceforge.io/DDoSolitary@gmail.com-00000000.rsa.pub && \
-      http://dl-cdn.alpinelinux.org/alpine/edge/community
       echo 'https://alpine-repo.sourceforge.io/packages' >> /etc/apk/repositories && \
       apk update && \
       apk upgrade && \
       apk add --no-cache --virtual shadowsocks-libev && \
-      mkdir -p /etc/ss/cfg && \
-      ls /usr/bin/
+      mkdir -p /etc/ss/cfg
   
 VOLUME ["/etc/ss/cfg/"]
 
