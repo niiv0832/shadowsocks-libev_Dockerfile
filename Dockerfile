@@ -7,7 +7,7 @@ RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositori
       echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
       apk update && \
       apk upgrade && \
-      apk add --no-cache --virtual wget \
+      apk add wget \
           c-ares \
           libcork \
           libcorkipset \
@@ -18,7 +18,8 @@ RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositori
       echo 'https://alpine-repo.sourceforge.io/packages' >> /etc/apk/repositories && \
       apk update && \
       apk upgrade && \
-      apk add --no-cache --virtual shadowsocks-libev && \
+      apk add shadowsocks-libev && \
+      rm -rf /var/cache/apk/* && \
       mkdir -p /etc/ss/cfg
   
 VOLUME ["/etc/ss/cfg/"]
