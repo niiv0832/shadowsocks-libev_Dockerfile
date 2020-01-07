@@ -19,4 +19,4 @@ EXPOSE 80
 
 USER nobody
 
-CMD exec ss-server -c /etc/ss/cfg/shadowsocks.json
+CMD /usr/bin/ss-server -c /etc/ss/cfg/shadowsocks.json
