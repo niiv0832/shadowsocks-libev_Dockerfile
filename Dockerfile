@@ -3,10 +3,14 @@ MAINTAINER niiv0832 <dockerhubme-ssr@yahoo.com>
 
 ARG VERSION=3.3.3
 
-RUN mkdir -p /tmp/repo && \
-      wget --no-check-certificate https://github.com/shadowsocks/shadowsocks-libev/releases/download/v${VERSION}/shadowsocks-libev-${VERSION}.tar.gz -O /tmp/repo/${VERSION}.tar.gz && \
-      tar -xf /tmp/${VERSION}.tar.gz && \
-      rm /tmp/${VERSION}.tar.gz && \
+RUN apk update && \
+      apk upgrade && \
+      apk add --no-cache --virtual unzip \
+          wget && \
+      mkdir -p /tmp/repo && \
+      wget --no-check-certificate https://github.com/shadowsocks/shadowsocks-libev/archive/v${VERSION}.zip -O /tmp/repo/${VERSION}.zip && \
+      apk add --no-cache --virtual
+      unzip /tmp/repo/${VERSION}.zip && \
       mkdir -p /etc/ss/cfg && \
       set -ex && \
  #
