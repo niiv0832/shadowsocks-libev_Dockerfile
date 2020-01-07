@@ -29,11 +29,12 @@ RUN      set -ex && \
       mbedtls-dev \
       pcre-dev 
  #
-RUN apk add  --no-cache --virtual libbloom-dev --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing && \
-  apk add  --no-cache --virtual libcork-dev --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing && \
-  apk add  --no-cache --virtual libcorkipset-dev --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing && \
-  apk add  --no-cache --virtual asciidoc --repository=https://dl-cdn.alpinelinux.org/alpine/edge/main && \
-  apk add  --no-cache --virtual xmlto --repository=https://dl-cdn.alpinelinux.org/alpine/edge/main 
+RUN apk add  --no-cache --virtual libbloom-dev --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing && \
+  apk add  --no-cache --virtual libcork-dev --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing && \
+  apk add  --no-cache --virtual libcorkipset-dev --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing && \
+  apk add  --no-cache --virtual asciidoc --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main && \
+  apk add  --no-cache --virtual xmlto --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main && \
+  apk add  --no-cache --virtual musl-utils --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main
 RUN ldconfig
   
  #
