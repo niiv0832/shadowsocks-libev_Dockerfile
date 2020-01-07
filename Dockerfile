@@ -10,8 +10,9 @@ RUN apk update && \
       mkdir -p /tmp/repo && \
       wget --no-check-certificate https://github.com/shadowsocks/shadowsocks-libev/archive/v${VERSION}.zip -O /tmp/repo/${VERSION}.zip && \
       unzip -d /tmp/repo /tmp/repo/${VERSION}.zip && \
-      mkdir -p /etc/ss/cfg && \
-      set -ex && \
+      mkdir -p /etc/ss/cfg
+ #
+RUN      set -ex && \
  #
  # Build environment setup
  #
@@ -26,27 +27,27 @@ RUN apk update && \
       libsodium-dev \
       linux-headers \
       mbedtls-dev \
-      pcre-dev && \ 
+      pcre-dev 
  #
-  apk add libbloom-dev --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing && \
-  apk add libcork-dev --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing && \
-  apk add libcorkipset-dev --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing && \
-  apk add asciidoc --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main && \
-  apk add xmlto --repository=http://dl-cdn.alpinelinux.org/alpine/edge/main && \
+RUN apk add  --no-cache --virtual libbloom-dev --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing && \
+  apk add  --no-cache --virtual libcork-dev --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing && \
+  apk add  --no-cache --virtual libcorkipset-dev --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing && \
+  apk add  --no-cache --virtual asciidoc --repository=https://dl-cdn.alpinelinux.org/alpine/edge/main && \
+  apk add  --no-cache --virtual xmlto --repository=https://dl-cdn.alpinelinux.org/alpine/edge/main 
   
  #
  # Build & install
  #
-  cd /tmp/repo/shadowsocks-libev-${VERSION} && \
+RUN cd /tmp/repo/shadowsocks-libev-${VERSION} && \
   ./autogen.sh && \
   ./configure --prefix=/usr --disable-documentation && \
   make install && \
   ls /usr/bin/ss-* | xargs -n1 setcap cap_net_bind_service+ep && \
-  apk del .build-deps && \
+  apk del .build-deps 
  #
  # Runtime dependencies setup
  #
-  apk add --no-cache \
+RUN  apk add --no-cache \
       ca-certificates \
       rng-tools \
       $(scanelf --needed --nobanner /usr/bin/ss-* \
