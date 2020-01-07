@@ -19,6 +19,7 @@ RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositori
       apk update && \
       apk upgrade && \
       apk add shadowsocks-libev \
+              simple-obfs \
               ca-certificates \
               rng-tools \
                $(scanelf --needed --nobanner /usr/bin/ss-* \
