@@ -4,6 +4,7 @@ MAINTAINER niiv0832 <dockerhubme-ssr@yahoo.com>
 
 RUN apk update && \
       apk upgrade && \
+      cat /etc/apk/repositories && \
       apk add --no-cache --virtual unzip \
           wget \
           c-ares \
