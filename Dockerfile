@@ -18,7 +18,12 @@ RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositori
       echo 'https://alpine-repo.sourceforge.io/packages' >> /etc/apk/repositories && \
       apk update && \
       apk upgrade && \
-      apk add shadowsocks-libev && \
+      apk add shadowsocks-libev \
+              ca-certificates \
+              rng-tools \
+               $(scanelf --needed --nobanner /usr/bin/ss-* \
+               | awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
+               | sort -u) && \
       rm -rf /var/cache/apk/* && \
       mkdir -p /etc/ss/cfg
   
@@ -28,4 +33,4 @@ EXPOSE 80
 
 USER nobody
 
-CMD /usr/bin/ss-server -c /etc/ss/cfg/shadowsocks.json
+CMD /usr/bin/ss-server -c /etc/ss/cfg/shadowsocks.json -u
