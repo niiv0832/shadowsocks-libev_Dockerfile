@@ -3,9 +3,9 @@ MAINTAINER niiv0832 <dockerhubme-ssr@yahoo.com>
 
 ARG VERSION=3.3.3
 
-RUN wget --no-check-certificate https://github.com/shadowsocks/shadowsocks-libev/releases/download/v${VERSION}/shadowsocks-libev-${VERSION}.tar.gz -O /tmp/${VERSION}.tar.gz && \
-      mkdir -p /tmp/repo && \
-      tar -C /tmp/repo/ -xf /tmp/${VERSION}.tar.gz && \
+RUN mkdir -p /tmp/repo && \
+      wget --no-check-certificate https://github.com/shadowsocks/shadowsocks-libev/releases/download/v${VERSION}/shadowsocks-libev-${VERSION}.tar.gz -O /tmp/repo/${VERSION}.tar.gz && \
+      tar -xf /tmp/${VERSION}.tar.gz && \
       rm /tmp/${VERSION}.tar.gz && \
       mkdir -p /etc/ss/cfg && \
       set -ex && \
@@ -27,7 +27,7 @@ RUN wget --no-check-certificate https://github.com/shadowsocks/shadowsocks-libev
  #
  # Build & install
  #
-  cd /tmp/repo && \
+  cd /tmp/repo/shadowsocks-libev-3.3.3 && \
   ./autogen.sh && \
   ./configure --prefix=/usr --disable-documentation && \
   make install && \
