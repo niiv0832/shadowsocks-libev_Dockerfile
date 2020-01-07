@@ -34,6 +34,7 @@ RUN apk add  --no-cache --virtual libbloom-dev --repository=https://dl-cdn.alpin
   apk add  --no-cache --virtual libcorkipset-dev --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing && \
   apk add  --no-cache --virtual asciidoc --repository=https://dl-cdn.alpinelinux.org/alpine/edge/main && \
   apk add  --no-cache --virtual xmlto --repository=https://dl-cdn.alpinelinux.org/alpine/edge/main 
+RUN ldconfig
   
  #
  # Build & install
