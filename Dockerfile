@@ -9,7 +9,6 @@ RUN apk update && \
           wget && \
       mkdir -p /tmp/repo && \
       wget --no-check-certificate https://github.com/shadowsocks/shadowsocks-libev/archive/v${VERSION}.zip -O /tmp/repo/${VERSION}.zip && \
-      apk add --no-cache --virtual
       unzip /tmp/repo/${VERSION}.zip && \
       mkdir -p /etc/ss/cfg && \
       set -ex && \
