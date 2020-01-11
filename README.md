@@ -4,7 +4,7 @@ Shadowsocks-libev Server running from config file (UDP mode).
 ## Links:
 Link on docker hub: <a href="https://hub.docker.com/r/niiv0832/sslibev_serv">niiv0832/sslibev_serv</a>
 
-Link on github: <a href="https://www.github.com/niiv0832/shadowsocks-libev_Dockerfile">niiv0832/shadowsocks-libev_Dockerfil</a>
+Link on github: <a href="https://www.github.com/niiv0832/shadowsocks-libev_Dockerfile">niiv0832/shadowsocks-libev_Dockerfile</a>
 
 ## Usage
 
