@@ -22,6 +22,7 @@ RUN set -ex && \
                $(scanelf --needed --nobanner /usr/bin/ss-* \
                | awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
                | sort -u) && \
+      apk del wget && \
       rm -rf /var/cache/apk/* && \
       mkdir -p /etc/ss/cfg
   
