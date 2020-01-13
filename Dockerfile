@@ -30,14 +30,11 @@ RUN set -ex && \
     git submodule update --init --recursive && \
     ./autogen.sh && \
     ./configure --prefix=/usr --disable-documentation && \
-    make install && \
-    cd /tmp/ && \
-    git clone https://github.com/shadowsocks/simple-obfs.git shadowsocks-obfs && \
-    cd shadowsocks-obfs && \
-##    git checkout v$SS_OBFS_VER && \
-    git submodule update --init --recursive && \
-    ./autogen.sh && \
-    ./configure --prefix=/usr --disable-documentation && \
+    rm /usr/bin/ss-local && \
+    rm /usr/bin/ss-manager && \
+    rm /usr/bin/ss-nat && \
+    rm /usr/bin/ss-redir && \
+    rm /usr/bin/ss-tunnel && \    
     make install && \
     cd .. && \
 ##
