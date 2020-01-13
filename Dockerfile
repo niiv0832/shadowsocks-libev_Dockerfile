@@ -30,13 +30,14 @@ RUN set -ex && \
     git submodule update --init --recursive && \
     ./autogen.sh && \
     ./configure --prefix=/usr --disable-documentation && \
-    rm /usr/bin/ss-local && \
+    make install && \
+    rm -rf /usr/bin/ss-local && \
     rm /usr/bin/ss-manager && \
     rm /usr/bin/ss-nat && \
     rm /usr/bin/ss-redir && \
     rm /usr/bin/ss-tunnel && \    
     make install && \
-    cd .. && \
+    cd /tmp/ && \
 ##
     runDeps="$( \
         scanelf --needed --nobanner /usr/bin/ss-* \
