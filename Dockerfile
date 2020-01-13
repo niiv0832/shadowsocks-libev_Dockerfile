@@ -49,7 +49,7 @@ RUN set -ex && \
     )" && \
     apk add --no-cache --virtual .run-deps $runDeps && \
     apk del .build-deps && \
-    rm -rf /tmp/*
+    rm -rf /tmp/* && \
 ##      
     mkdir -p /etc/ss/cfg
   
