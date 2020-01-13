@@ -26,7 +26,7 @@ RUN set -ex && \
     cd /tmp/ && \
     git clone https://github.com/shadowsocks/shadowsocks-libev.git && \
     cd shadowsocks-libev && \
-    git checkout v$SS_VER && \
+##    git checkout v$SS_VER && \
     git submodule update --init --recursive && \
     ./autogen.sh && \
     ./configure --prefix=/usr --disable-documentation && \
@@ -34,7 +34,7 @@ RUN set -ex && \
     cd /tmp/ && \
     git clone https://github.com/shadowsocks/simple-obfs.git shadowsocks-obfs && \
     cd shadowsocks-obfs && \
-    git checkout v$SS_OBFS_VER && \
+##    git checkout v$SS_OBFS_VER && \
     git submodule update --init --recursive && \
     ./autogen.sh && \
     ./configure --prefix=/usr --disable-documentation && \
