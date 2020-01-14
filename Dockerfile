@@ -1,11 +1,11 @@
-FROM alpine:latest
+FROM alpine:latest as builder
 MAINTAINER niiv0832 <dockerhubme-sslibev@yahoo.com>
 
 ## arg SS_VER=3.3.4
 ## arg SS_OBFS_VER=0.0.5
 
 RUN set -ex && \
-    apk add --no-cache udns && \
+##    apk add --no-cache udns && \
     apk add --no-cache --virtual .build-deps \
                                 git \
                                 autoconf \
@@ -20,7 +20,6 @@ RUN set -ex && \
                                 libsodium-dev \
                                 mbedtls-dev \
                                 pcre-dev \
-                                tar \
                                 udns-dev && \
 ##
     cd /tmp/ && \
@@ -30,30 +29,38 @@ RUN set -ex && \
     git submodule update --init --recursive && \
     ./autogen.sh && \
     ./configure --prefix=/usr --disable-documentation && \
-    make install && \
-    rm -rf /usr/bin/ss-local && \
-    rm /usr/bin/ss-manager && \
-    rm /usr/bin/ss-nat && \
-    rm /usr/bin/ss-redir && \
-    rm /usr/bin/ss-tunnel && \    
-    make install && \
-    cd /tmp/ && \
-##
+    make install
+##    rm -rf /usr/bin/ss-local && \
+##    rm /usr/bin/ss-manager && \
+##    rm /usr/bin/ss-nat && \
+##    rm /usr/bin/ss-redir && \
+##    rm /usr/bin/ss-tunnel && \    
+
+##    cd /tmp/ && \
+##        apk del .build-deps && \
+
+FROM alpine:latest
+
+COPY --from=builder /usr/bin/ss-server /usr/bin/ss-local
+
+RUN \
     runDeps="$( \
-        scanelf --needed --nobanner /usr/bin/ss-* \
+        scanelf --needed --nobanner /usr/bin/ss-server \
             | awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
             | xargs -r apk info --installed \
             | sort -u \
     )" && \
+##    
     apk add --no-cache --virtual .run-deps $runDeps && \
-    apk del .build-deps && \
-    rm -rf /tmp/* && \
+    mkdir -p /etc/ss/cfg   
+##    
+##    rm -rf /tmp/* && \
 ##      
-    mkdir -p /etc/ss/cfg
+WORKDIR /etc/ss/cfg      
   
 VOLUME ["/etc/ss/cfg/"]
 
-EXPOSE 80
+EXPOSE 8080
 
 USER nobody
 
