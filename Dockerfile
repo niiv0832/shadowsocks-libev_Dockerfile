@@ -41,7 +41,7 @@ RUN set -ex && \
 
 FROM alpine:latest
 
-COPY --from=builder /usr/bin/ss-server /usr/bin/ss-local
+COPY --from=builder /usr/bin/ss-server /usr/bin/ss-server
 
 RUN \
     runDeps="$( \
