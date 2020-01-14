@@ -44,18 +44,25 @@ FROM alpine:latest
 COPY --from=builder /usr/bin/ss-server /usr/bin/ss-server
 
 RUN \
-    runDeps="$( \
+    apk add --no-cache c-ares libbloom libcork libcorkipset libev libsodium mbedtls musl pcre && \
+##    apk add libcap && \
+##    ls /usr/bin/ss-* | xargs -n1 setcap cap_net_bind_service+ep && \
+##    apk del libcap && \
+    mkdir -p /etc/ss/cfg && \
+    touch /etc/ss/cfg/log.txt
+    
+        runDeps="$( \
         scanelf --needed --nobanner /usr/bin/ss-server \
             | awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
             | xargs -r apk info --installed \
             | sort -u \
     )" && \
-##    
-    apk add --no-cache --virtual .run-deps $runDeps && \
-    mkdir -p /etc/ss/cfg   
+    echo $runDeps > /etc/ss/cfg/log.txt
+   
 ##    
 ##    rm -rf /tmp/* && \
-##      
+##   
+
 WORKDIR /etc/ss/cfg      
   
 VOLUME ["/etc/ss/cfg/"]
