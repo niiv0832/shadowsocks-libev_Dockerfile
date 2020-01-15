@@ -1,4 +1,4 @@
-FROM alpine:latest as builder
+FROM alpine as builder
 MAINTAINER niiv0832 <dockerhubme-sslibev@yahoo.com>
 
 ## arg SS_VER=3.3.4
@@ -6,70 +6,76 @@ MAINTAINER niiv0832 <dockerhubme-sslibev@yahoo.com>
 
 RUN set -ex && \
 ##    apk add --no-cache udns && \
+    echo 'http://dl-cdn.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories && \
     apk add --no-cache --virtual .build-deps \
                                 git \
                                 autoconf \
                                 automake \
-                                make \
+##                                make \
                                 build-base \
-                                curl \
+##                                curl \
                                 libev-dev \
                                 c-ares-dev \
                                 libtool \
                                 linux-headers \
                                 libsodium-dev \
                                 mbedtls-dev \
-                                pcre-dev \
-                                udns-dev && \
-##
+                                pcre-dev && \
+##                                udns-dev && \
+                                echo 'http://dl-cdn.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories && \
+                                apk update && \
+                                apk add --no-cache .build-deps-edge\
+                                                   libbloom-dev \
+                                                   libcork-dev \        
+                                                   libbloom-dev && \
     cd /tmp/ && \
     git clone https://github.com/shadowsocks/shadowsocks-libev.git && \
     cd shadowsocks-libev && \
-##    git checkout v$SS_VER && \
     git submodule update --init --recursive && \
     ./autogen.sh && \
     ./configure --prefix=/usr --disable-documentation && \
     make install
-##    rm -rf /usr/bin/ss-local && \
-##    rm /usr/bin/ss-manager && \
-##    rm /usr/bin/ss-nat && \
-##    rm /usr/bin/ss-redir && \
-##    rm /usr/bin/ss-tunnel && \    
-
-##    cd /tmp/ && \
-##        apk del .build-deps && \
+    
+###########################################---------------------------------###########################################
 
 FROM alpine:latest
-
+##
 COPY --from=builder /usr/bin/ss-server /usr/bin/ss-server
-
+##
 RUN \
-    apk add --no-cache c-ares libbloom libcork libcorkipset libev libsodium mbedtls musl pcre && \
-##    apk add libcap && \
-##    ls /usr/bin/ss-* | xargs -n1 setcap cap_net_bind_service+ep && \
-##    apk del libcap && \
     mkdir -p /etc/ss/cfg && \
-    touch /etc/ss/cfg/log.txt && \
-    
-        runDeps="$( \
+    touch /etc/ss/log.txt && \
+##    
+        echo "$( \
         scanelf --needed --nobanner /usr/bin/ss-server \
             | awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
             | xargs -r apk info --installed \
             | sort -u \
-    )" && \
-    echo $runDeps && \
-    echo $runDeps > /etc/ss/cfg/log.txt
-   
+    )" > /etc/ss/log.txt && \
 ##    
-##    rm -rf /tmp/* && \
-##   
-
-WORKDIR /etc/ss/cfg      
-  
+    apk add --no-cache c-ares \
+                       libev \
+                       libsodium \
+                       mbedtls \
+                       musl \
+                       pcre \
+                       ca-certificates \
+                       rng-tools && \
+    echo 'http://dl-cdn.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories && \
+    apk update && \
+    apk add --no-cache libbloom \
+                       libcork \
+                       libcorkipset && \
+    apk add libcap && \
+    ls /usr/bin/ss-* | xargs -n1 setcap cap_net_bind_service+ep && \
+    apk del libcap && \
+    rm -rf /var/cache/apk/* && \
+##
+##  
 VOLUME ["/etc/ss/cfg/"]
-
+##
 EXPOSE 8080
-
+##
 USER nobody
-
+##
 CMD /usr/bin/ss-server -c /etc/ss/cfg/shadowsocks.json -u
