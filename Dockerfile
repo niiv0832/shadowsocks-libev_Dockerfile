@@ -69,7 +69,7 @@ RUN \
     apk add libcap && \
     ls /usr/bin/ss-* | xargs -n1 setcap cap_net_bind_service+ep && \
     apk del libcap && \
-    rm -rf /var/cache/apk/* && \
+    rm -rf /var/cache/apk/*
 ##
 ##  
 VOLUME ["/etc/ss/cfg/"]
