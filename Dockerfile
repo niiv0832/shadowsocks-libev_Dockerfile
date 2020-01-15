@@ -24,10 +24,10 @@ RUN set -ex && \
 ##                                udns-dev && \
                                 echo 'http://dl-cdn.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories && \
                                 apk update && \
-                                apk add --no-cache .build-deps-edge\
-                                                   libbloom-dev \
-                                                   libcork-dev \        
-                                                   libbloom-dev && \
+                                apk add --no-cache --virtual .build-deps-edge\
+                                                             libbloom-dev \
+                                                             libcork-dev \        
+                                                             libbloom-dev && \
     cd /tmp/ && \
     git clone https://github.com/shadowsocks/shadowsocks-libev.git && \
     cd shadowsocks-libev && \
