@@ -28,8 +28,9 @@ RUN set -ex && \
     git submodule update --init --recursive && \
     ./autogen.sh && \
     ./configure --prefix=/usr --disable-documentation && \
-    make install && \
-    upx --ultra-brute -qq /usr/bin/ss-server
+    make install 
+#    && \
+#    upx --ultra-brute -qq /usr/bin/ss-server
 #    
 ###############################################################################
 # PACKAGE STAGE
