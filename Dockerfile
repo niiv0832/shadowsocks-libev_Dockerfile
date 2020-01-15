@@ -22,7 +22,7 @@ RUN set -ex && \
                                 mbedtls-dev \
                                 pcre-dev && \
 ##                                udns-dev && \
-                                echo 'http://dl-cdn.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories && \
+                                echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
                                 apk update && \
                                 apk add --no-cache --virtual .build-deps-edge\
                                                              libbloom-dev \
@@ -61,7 +61,7 @@ RUN \
                        pcre \
                        ca-certificates \
                        rng-tools && \
-    echo 'http://dl-cdn.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories && \
+    echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
     apk update && \
     apk add --no-cache libbloom \
                        libcork \
