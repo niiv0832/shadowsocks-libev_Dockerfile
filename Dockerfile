@@ -51,30 +51,30 @@ RUN \
             | awk '{ gsub(/,/, "\nso:", $2); print "so:" $2 }' \
             | xargs -r apk info --installed \
             | sort -u \
-    )" > /etc/ss/log.txt && \
+    )" >> /etc/ss/log.txt && \
 ##    
     apk add --no-cache c-ares \
                        libev \
                        libsodium \
                        mbedtls \
                        musl \
-                       pcre \
-                       ca-certificates \
-                       rng-tools && \
-    echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
-    apk update && \
-    apk add --no-cache libbloom \
-                       libcork \
-                       libcorkipset && \
-    apk add libcap && \
-    ls /usr/bin/ss-* | xargs -n1 setcap cap_net_bind_service+ep && \
-    apk del libcap && \
-    rm -rf /var/cache/apk/*
+                       pcre 
+#1                       ca-certificates \
+#1                       rng-tools && \
+#1    echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
+#1    apk update && \
+#1    apk add --no-cache libbloom \
+#1                       libcork \
+#1                       libcorkipset && \
+#1    apk add libcap && \
+#1    ls /usr/bin/ss-* | xargs -n1 setcap cap_net_bind_service+ep && \
+#1   apk del libcap && \
+#1    rm -rf /var/cache/apk/*
 ##
 ##  
 VOLUME ["/etc/ss/cfg/"]
 ##
-EXPOSE 8080
+EXPOSE 8081
 ##
 USER nobody
 ##
