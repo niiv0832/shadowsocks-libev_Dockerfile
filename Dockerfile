@@ -14,6 +14,7 @@ RUN set -ex && \
                                 linux-headers \
                                 libsodium-dev \
                                 mbedtls-dev \
+                                upx \
                                 pcre-dev && \
                                 echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
 ##                                apk update && \
@@ -27,7 +28,8 @@ RUN set -ex && \
     git submodule update --init --recursive && \
     ./autogen.sh && \
     ./configure --prefix=/usr --disable-documentation && \
-    make install
+    make install && \
+    upx --ultra-brute -qq /usr/bin/ss-server
 #    
 ###############################################################################
 # PACKAGE STAGE
