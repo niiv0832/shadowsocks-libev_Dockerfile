@@ -49,7 +49,7 @@ RUN \
 ##    ls /usr/bin/ss-* | xargs -n1 setcap cap_net_bind_service+ep && \
 ##    apk del libcap && \
     mkdir -p /etc/ss/cfg && \
-    touch /etc/ss/cfg/log.txt
+    touch /etc/ss/cfg/log.txt && \
     
         runDeps="$( \
         scanelf --needed --nobanner /usr/bin/ss-server \
@@ -57,6 +57,7 @@ RUN \
             | xargs -r apk info --installed \
             | sort -u \
     )" && \
+    echo $runDeps && \
     echo $runDeps > /etc/ss/cfg/log.txt
    
 ##    
