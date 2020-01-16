@@ -9,7 +9,7 @@ Link on github: <a href="https://www.github.com/niiv0832/shadowsocks-libev_Docke
 ## Usage
 
 ```shell
-docker run -d --name=ssserv --restart=always -v $YOUR_PATH_TO_JSON_CONFIG_DIR$:/etc/ss/cfg -p $YOUR_PORT$:80 -t niiv0832/sslibev_serv
+docker run -d --name=ssserv --restart=always -v $YOUR_PATH_TO_JSON_CONFIG_DIR$:/etc/ss/cfg -p $YOUR_PORT$:7300 -t niiv0832/sslibev_serv
 ```
 
-In config must be port `80`. Config file name must be `"shadowsocks.json"`.
+In config must be port `7300`. Config file name must be `"shadowsocks.json"`.
