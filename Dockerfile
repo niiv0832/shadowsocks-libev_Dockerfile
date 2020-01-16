@@ -1,3 +1,4 @@
+#ver-2020.01.16.12.47
 ###############################################################################
 # BUILD STAGE
 FROM alpine as builder
@@ -50,7 +51,7 @@ RUN set -ex && \
 ##                       
 VOLUME ["/etc/ss/cfg/"]
 ##
-EXPOSE 7771
+EXPOSE 7300
 ##
 USER nobody
 ##
