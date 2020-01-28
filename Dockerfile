@@ -1,11 +1,11 @@
 #ver-2020.01.16.12.47
 ###############################################################################
 # BUILD STAGE
-FROM alpine as builder
-MAINTAINER niiv0832 <dockerhubme-sslibev@yahoo.com>
+FROM alpine:3.11 as builder
 ##
 RUN set -ex && \
-    apk add --no-cache --update git \
+    apk add --no-cache --update --virtual build-depmain \
+                                git \
                                 autoconf \
                                 automake \
                                 build-base \
@@ -17,7 +17,7 @@ RUN set -ex && \
                                 mbedtls-dev \
                                 pcre-dev && \
                                 echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
-                                apk add --no-cache --update \
+                                apk add --no-cache --update --virtual build-depsub \
                                                             libbloom-dev \
                                                             libcork-dev \        
                                                             libbloom-dev && \
@@ -27,23 +27,27 @@ RUN set -ex && \
     git submodule update --init --recursive && \
     ./autogen.sh && \
     ./configure --prefix=/usr --disable-documentation && \
-    make install 
+    make install && \
+    apk del build-depmain build-depsub && \
+    rm -rf /var/cache/apk/*
 #    
 ###############################################################################
 # PACKAGE STAGE
-
-FROM alpine:latest
+##
+FROM alpine:3.11
+MAINTAINER niiv0832 <dockerhubme-sslibev@yahoo.com>
 ##
 COPY --from=builder /usr/bin/ss-server /usr/bin/ss-server
 ##
 RUN set -ex && \
     mkdir -p /etc/ss/cfg && \
-    apk add --no-cache c-ares \
-                       libev \
-                       libsodium \
-                       mbedtls \
-                       musl \
-                       pcre 
+    apk add --no-cache --update c-ares \
+                                libev \
+                                libsodium \
+                                mbedtls \
+                                musl \
+                                pcre && \
+    rm -rf /var/cache/apk/*
 ##                       
 VOLUME ["/etc/ss/cfg/"]
 ##
