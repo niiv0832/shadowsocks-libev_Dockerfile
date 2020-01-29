@@ -1,9 +1,10 @@
-#ver-2020.01.16.12.47
+#ver-2020.01.29.13.55
 ###############################################################################
 # BUILD STAGE
-FROM alpine:3.11 as builder
+FROM alpine:edge as builder
 ##
 RUN set -ex && \
+    echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
     apk add --no-cache --update --virtual build-depmain \
                                 git \
                                 autoconf \
@@ -15,12 +16,10 @@ RUN set -ex && \
                                 linux-headers \
                                 libsodium-dev \
                                 mbedtls-dev \
-                                pcre-dev && \
-                                echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
-                                apk add --no-cache --update --virtual build-depsub \
-                                                            libbloom-dev \
-                                                            libcork-dev \        
-                                                            libbloom-dev && \
+                                pcre-dev \
+                                libbloom-dev \
+                                libcork-dev \        
+                                libbloom-dev && \
     cd /tmp/ && \
     git clone https://github.com/shadowsocks/shadowsocks-libev.git && \
     cd shadowsocks-libev && \
@@ -28,13 +27,14 @@ RUN set -ex && \
     ./autogen.sh && \
     ./configure --prefix=/usr --disable-documentation && \
     make install && \
-    apk del build-depmain build-depsub && \
+    rm -rf /tmp/shadowsocks-libev && \
+    apk del build-depmain && \
     rm -rf /var/cache/apk/*
 #    
 ###############################################################################
 # PACKAGE STAGE
 ##
-FROM alpine:3.11
+FROM alpine:edge
 MAINTAINER niiv0832 <dockerhubme-sslibev@yahoo.com>
 ##
 COPY --from=builder /usr/bin/ss-server /usr/bin/ss-server
@@ -46,7 +46,10 @@ RUN set -ex && \
                                 libsodium \
                                 mbedtls \
                                 musl \
-                                pcre && \
+                                pcre\
+                                libbloom \
+                                libcork \
+                                libcorkipset && \
     rm -rf /var/cache/apk/*
 ##                       
 VOLUME ["/etc/ss/cfg/"]
