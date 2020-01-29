@@ -40,7 +40,7 @@ MAINTAINER niiv0832 <dockerhubme-sslibev@yahoo.com>
 COPY --from=builder /usr/bin/ss-server /usr/bin/ss-server
 ##
 RUN set -ex && \
-    mkdir -p /etc/ss/cfg && \
+    echo 'http://dl-cdn.alpinelinux.org/alpine/edge/testing' >> /etc/apk/repositories && \
     apk add --no-cache --update c-ares \
                                 libev \
                                 libsodium \
@@ -50,7 +50,8 @@ RUN set -ex && \
                                 libbloom \
                                 libcork \
                                 libcorkipset && \
-    rm -rf /var/cache/apk/*
+    rm -rf /var/cache/apk/* && \
+    mkdir -p /etc/ss/cfg 
 ##                       
 VOLUME ["/etc/ss/cfg/"]
 ##
