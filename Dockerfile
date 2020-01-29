@@ -46,7 +46,7 @@ RUN set -ex && \
                                 libsodium \
                                 mbedtls \
                                 musl \
-                                pcre\
+                                pcre \
                                 libbloom \
                                 libcork \
                                 libcorkipset && \
